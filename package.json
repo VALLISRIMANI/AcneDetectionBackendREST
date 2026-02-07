@@ -13,9 +13,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/VALLISRIMANI/AcneDetectionBackendREST/issues"
   },
-  "homepage": "https://github.com/VALLISRIMANI/AcneDetectionBackendREST#readme"
+  "homepage": "https://github.com/VALLISRIMANI/AcneDetectionBackendREST#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "nodemon": "^3.1.11"
+  }
 }
