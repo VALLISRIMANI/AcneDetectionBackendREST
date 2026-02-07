@@ -1,1 +1,0 @@
-print(f"Hello world! This is a rough draft of the backend for the acne detection REST API. Stay tuned for more updates!")
