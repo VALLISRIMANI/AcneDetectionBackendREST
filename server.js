@@ -10,6 +10,7 @@ import errorHandler from "./src/middlewares/error.middleware.js";
 import authRoutes from "./src/routes/auth.routes.js";
 import profileRoutes from "./src/routes/profile.routes.js";
 import predictionRoutes from "./src/routes/prediction.routes.js";
+import treatmentRoutes from "./src/routes/treatment.routes.js";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use(globalLimiter);
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/prediction", predictionRoutes);
+app.use("/api/treatment", treatmentRoutes);
 
 app.get("/", (req, res) => {
   res.json({
