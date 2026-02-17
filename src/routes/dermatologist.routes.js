@@ -1,0 +1,1 @@
+// dermatologist.routes.js
