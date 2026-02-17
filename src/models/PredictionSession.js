@@ -16,10 +16,29 @@ const predictionSessionSchema = new mongoose.Schema(
       default: "in_progress"
     },
 
-    predictions: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "ImagePrediction",
-      default: []
+    predictions: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ImagePrediction"
+      }
+    ],
+
+    sessionFinalSeverity: {
+      type: String,
+      enum: ["cleanskin", "mild", "moderate", "moderate-severe", "severe"]
+    },
+
+    sessionSeverityScore: {
+      type: Number
+    },
+
+    dominantArea: {
+      type: String,
+      enum: ["forehead", "leftcheek", "rightcheek", "chin", "full_face"]
+    },
+
+    aggregationReason: {
+      type: String
     }
   },
   { timestamps: true }

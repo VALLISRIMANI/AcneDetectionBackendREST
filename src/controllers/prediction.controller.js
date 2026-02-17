@@ -4,7 +4,8 @@ import AcneProfile from "../models/AcneProfile.js";
 import { sendToML } from "../services/ml.service.js";
 import { calculateSeverity } from "../services/severity.service.js";
 import { successResponse } from "../utils/apiResponse.js";
-
+import { aggregateSessionSeverity } from "../services/sessionAggregation.service.js";
+ 
 export const startPredictionSession = async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -135,7 +136,26 @@ export const completeSession = async (req, res, next) => {
     if (session.userId.toString() !== userId.toString())
       throw new Error("Unauthorized: session does not belong to you");
 
+    if (session.status !== "in_progress") {
+      throw new Error("Session already completed");
+    }
+
+    const predictions = await ImagePrediction.find({
+      predictionSessionId: sessionId
+    });
+
+    if (!predictions.length) {
+      throw new Error("No predictions found");
+    }
+
+    const aggregation = aggregateSessionSeverity(predictions);
+
+    session.sessionFinalSeverity = aggregation.finalSeverity;
+    session.sessionSeverityScore = aggregation.highestScore;
+    session.dominantArea = aggregation.dominantArea;
+    session.aggregationReason = aggregation.aggregationReason;
     session.status = "completed";
+
     await session.save();
 
     successResponse(res, session, "Prediction session completed");
@@ -143,4 +163,3 @@ export const completeSession = async (req, res, next) => {
     next(error);
   }
 };
-
