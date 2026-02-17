@@ -1,1 +1,0 @@
-// dermatologist.controller.js
