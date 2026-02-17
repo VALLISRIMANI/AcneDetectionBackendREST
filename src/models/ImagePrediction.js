@@ -9,6 +9,13 @@ const imagePredictionSchema = new mongoose.Schema(
       required: true
     },
 
+    predictionSessionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "PredictionSession",
+      required: true,
+      index: true
+    },
+
     imageUrl: { type: String, required: true },
     faceArea: { type: String },
 
