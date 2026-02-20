@@ -6,11 +6,12 @@ import crypto from "crypto";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
 
-dotenv.config();
 
 const OTP_EXPIRY_TIME = 5 * 60 * 1000;
 const MIN_PASSWORD_LENGTH = 8;
-const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_dev_only";
+dotenv.config();
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
