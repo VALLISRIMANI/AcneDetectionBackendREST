@@ -39,7 +39,11 @@ const safeSendMail = async (options) => {
 
 export const register = async (req, res) => {
   try {
-    const { username, email, password, retype_password } = req.body || {};
+    let { username, email, password, retype_password } = req.body || {};
+
+    // Normalize inputs to avoid duplicates caused by casing/whitespace
+    username = username && String(username).trim();
+    email = email && String(email).toLowerCase().trim();
 
     if (!username || !email || !password || !retype_password)
       return res.status(400).json({ message: "All fields are required" });
@@ -54,8 +58,15 @@ export const register = async (req, res) => {
       $or: [{ email }, { username }]
     });
 
-    if (existingUser)
-      return res.status(400).json({ message: "User already exists" });
+    if (existingUser) {
+      // If the account is already verified, reject new registration attempts
+      if (existingUser.isVerified) {
+        return res.status(409).json({ message: "Email or username already registered" });
+      }
+
+      // Account exists but not verified — instruct to use resend OTP instead
+      return res.status(409).json({ message: "Account exists but not verified. Use resend OTP to verify." });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 12);
     const otp = generateOTP();
@@ -87,7 +98,8 @@ export const register = async (req, res) => {
 
 export const verifyOtp = async (req, res) => {
   try {
-    const { email, otp } = req.body || {};
+    let { email, otp } = req.body || {};
+    email = email && String(email).toLowerCase().trim();
 
     if (!email || !otp)
       return res.status(400).json({ message: "Email and OTP required" });
@@ -127,7 +139,8 @@ export const verifyOtp = async (req, res) => {
 
 export const resendOtp = async (req, res) => {
   try {
-    const { email } = req.body || {};
+    let { email } = req.body || {};
+    email = email && String(email).toLowerCase().trim();
 
     if (!email)
       return res.status(400).json({ message: "Email required" });
@@ -138,7 +151,7 @@ export const resendOtp = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
 
     if (user.isVerified)
-      return res.status(400).json({ message: "Account already verified" });
+      return res.status(409).json({ message: "Account already verified" });
 
     if (user.otpExpiry && user.otpExpiry.getTime() > Date.now())
       return res.status(400).json({ message: "OTP still valid" });
@@ -168,7 +181,8 @@ export const resendOtp = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body || {};
+    let { email, password } = req.body || {};
+    email = email && String(email).toLowerCase().trim();
 
     if (!email || !password)
       return res.status(400).json({ message: "Email and password required" });
@@ -201,7 +215,8 @@ export const login = async (req, res) => {
 
 export const forgotPassword = async (req, res) => {
   try {
-    const { email } = req.body || {};
+    let { email } = req.body || {};
+    email = email && String(email).toLowerCase().trim();
 
     if (!email)
       return res.status(400).json({ message: "Email required" });
@@ -236,7 +251,8 @@ export const forgotPassword = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-    const { email, otp, newPassword } = req.body || {};
+    let { email, otp, newPassword } = req.body || {};
+    email = email && String(email).toLowerCase().trim();
 
     if (!email || !otp || !newPassword)
       return res.status(400).json({ message: "All fields required" });
