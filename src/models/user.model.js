@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.pre("save", async function () {
+userSchema.pre("save", function () {
   if (this.email) {
     this.email = this.email.toLowerCase();
   }

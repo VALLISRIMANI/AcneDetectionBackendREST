@@ -5,6 +5,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import authRoutes from "./src/routes/auth.routes.js";
+import treatmentRoutes from "./src/routes/treatment.routes.js";
+import connectDB from "./src/db/connection.js";
 
 dotenv.config();
 
@@ -15,7 +17,8 @@ dotenv.config();
 const requiredEnvVars = [
   "JWT_SECRET",
   "MONGO_URI",
-  "ML_API_URL"
+  "ML_API_URL",
+  "GROQ_API_KEY"
 ];
 
 const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
@@ -90,29 +93,18 @@ app.use("/api/auth/verify-otp", authLimiter);
 app.use("/api/auth/resend-otp", authLimiter);
 app.use("/api/auth/forgot-password", authLimiter);
 app.use("/api/auth/reset-password", authLimiter);
-
 app.use("/api/", generalLimiter);
+app.use("/api/auth", authRoutes);
+app.use("/api/treatment", treatmentRoutes);
 
 /**
  * DATABASE CONNECTION
  */
-mongoose.connect(process.env.MONGO_URI, {
-  maxPoolSize: 10,
-  serverSelectionTimeoutMS: 5000,
-  socketTimeoutMS: 45000
-})
-  .then(() => {
-    console.log("✓ MongoDB Connected successfully");
-  })
-  .catch(err => {
-    console.error("✗ MongoDB Connection Failed:", err.message);
-    process.exit(1);
-  });
+connectDB();
 
 /**
  * ROUTES
  */
-app.use("/api/auth", authRoutes);
 
 /**
  * HEALTH CHECK ENDPOINT

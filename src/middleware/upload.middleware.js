@@ -26,7 +26,7 @@ export const upload = multer({
   fileFilter,
   limits: {
     fileSize: 10 * 1024 * 1024, // 10MB per file
-    files: 10 // Maximum 6 body areas
+    files: 10 // Maximum 10 files across all fields
   }
 });
 

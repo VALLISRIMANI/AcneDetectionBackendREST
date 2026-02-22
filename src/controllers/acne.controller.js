@@ -45,6 +45,13 @@ export const uploadAcneImages = async (req, res) => {
     for (const fieldname of fieldnames) {
       const filesInField = files[fieldname];
 
+      // 3️⃣ FIX: Enforce 1 image per body area
+      if (filesInField.length > 1) {
+        return res.status(400).json({
+          message: `Only one image allowed for ${fieldname}`
+        });
+      }
+
       for (const file of filesInField) {
 
         const form = new FormData();
@@ -81,12 +88,21 @@ export const uploadAcneImages = async (req, res) => {
           });
         }
 
+        // FIX #3: Validate prediction is one of allowed enum values
+        const validPredictions = ["cleanskin", "mild", "moderate", "severe", "unknown"];
+        if (!validPredictions.includes(result.prediction)) {
+          return res.status(502).json({
+            message: `Invalid prediction value for area: ${fieldname}. Expected one of: ${validPredictions.join(", ")}, got: ${result.prediction}`
+          });
+        }
+
         const probs = result.probabilities;
 
         const requiredKeys = ["cleanskin", "mild", "moderate", "severe", "unknown"];
 
         for (const key of requiredKeys) {
-          if (typeof probs[key] !== "number") {
+          // FIX #2: Use Number.isFinite() to catch NaN values
+          if (!Number.isFinite(probs[key])) {
             return res.status(502).json({
               message: `Invalid probabilities structure for area: ${fieldname}`
             });
@@ -96,6 +112,14 @@ export const uploadAcneImages = async (req, res) => {
         if (result.confidence < 0 || result.confidence > 100) {
           return res.status(502).json({
             message: `Invalid confidence value for area: ${fieldname}`
+          });
+        }
+
+        // 4️⃣ FIX: Validate probability sum = 100 (safer range check)
+        const probSum = probs.cleanskin + probs.mild + probs.moderate + probs.severe + probs.unknown;
+        if (probSum < 99.5 || probSum > 100.5) {
+          return res.status(502).json({
+            message: `Invalid probabilities for area: ${fieldname} (sum must be 100, got ${probSum})`
           });
         }
 
@@ -118,14 +142,24 @@ export const uploadAcneImages = async (req, res) => {
       }
     }
 
-    // 7️⃣ Atomic save
-    await UserAcneLevel.create({
-      userId,
-      areas: areasResults
-    });
+    // 7️⃣ Atomic save with race condition handling
+    try {
+      await UserAcneLevel.create({
+        userId,
+        areas: areasResults
+      });
+    } catch (err) {
+      // Handle race condition: duplicate key error (code 11000)
+      if (err.code === 11000) {
+        return res.status(409).json({
+          message: "Acne analysis already completed for this user"
+        });
+      }
+      throw err;
+    }
 
     // 8️⃣ Success response
-    return res.status(200).json({
+    return res.status(201).json({
       message: "Acne analysis completed",
       areas: areasResults
     });
