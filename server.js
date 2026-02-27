@@ -18,7 +18,8 @@ const requiredEnvVars = [
   "JWT_SECRET",
   "MONGO_URI",
   "ML_API_URL",
-  "GROQ_API_KEY"
+  "GROQ_API_KEY",
+  "ALLOWED_ORIGINS"
 ];
 
 const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
@@ -49,9 +50,20 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
-// CORS configuration
+// CORS configuration - Only allow React Vite application
+const allowedOrigins = process.env.ALLOWED_ORIGINS.split(",").map(origin => origin.trim());
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
