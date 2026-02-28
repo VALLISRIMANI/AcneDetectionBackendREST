@@ -90,98 +90,103 @@ export const register = async (req, res) => {
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Account Verification</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify Your AcnePilot Account</title>
 </head>
-<body style="margin:0; padding:0; background-color:#f0fdf4; font-family:Arial, Helvetica, sans-serif;">
 
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f0fdf4; padding:40px 0;">
-    <tr>
-      <td align="center">
+<body style="margin:0; padding:0; background-color:#f3f4f6; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
 
-        <table width="520" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:14px; box-shadow:0 12px 35px rgba(0,0,0,0.08); overflow:hidden;">
+<table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 0; background-color:#f3f4f6;">
+<tr>
+<td align="center">
 
-          <!-- Header -->
-          <tr>
-            <td align="center" style="background:linear-gradient(90deg,#15803d,#22c55e); padding:30px;">
-              <h1 style="color:#ffffff; margin:0; font-size:24px; letter-spacing:1px;">
-                Welcome to AcneAI 💚
-              </h1>
-              <p style="color:#d1fae5; margin-top:8px; font-size:14px;">
-                “Secure. Smart. Personalized Care.”
-              </p>
-            </td>
-          </tr>
+<table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 15px 40px rgba(0,0,0,0.08);">
 
-          <!-- Body -->
-          <tr>
-            <td style="padding:35px; color:#1f2937;">
+<!-- HEADER -->
+<tr>
+<td align="center" style="background:linear-gradient(135deg,#166534,#22c55e); padding:35px 25px;">
+<h1 style="margin:0; font-size:26px; color:#ffffff; font-weight:700; letter-spacing:0.5px;">
+AcnePilot
+</h1>
+<p style="margin:8px 0 0 0; font-size:14px; color:#d1fae5;">
+AI-Powered Personalized Acne Care
+</p>
+</td>
+</tr>
 
-              <h2 style="margin-top:0; color:#15803d;">Verify Your Account</h2>
+<!-- BODY -->
+<tr>
+<td style="padding:40px 40px 30px 40px; color:#1f2937;">
 
-              <p style="font-size:15px; line-height:1.7; margin-bottom:20px;">
-                Thank you for joining us.  
-                To complete your registration and activate your account,  
-                please use the One-Time Password (OTP) below.
-              </p>
+<h2 style="margin-top:0; font-size:22px; color:#166534;">
+Verify Your Email Address
+</h2>
 
-              <p style="font-size:14px; font-style:italic; color:#4b5563;">
-                “Security is the foundation of trust, and your safety matters to us.”
-              </p>
+<p style="font-size:15px; line-height:1.8; margin:18px 0;">
+Thank you for registering with <strong>AcnePilot</strong>.  
+To securely activate your account and begin your personalized acne assessment,  
+please confirm your email address using the One-Time Password (OTP) below.
+</p>
 
-              <!-- OTP Box -->
-              <div style="text-align:center; margin:35px 0;">
-                <span style="
-                  display:inline-block;
-                  background:#dcfce7;
-                  color:#166534;
-                  font-size:30px;
-                  font-weight:bold;
-                  letter-spacing:6px;
-                  padding:18px 30px;
-                  border-radius:10px;
-                  border:2px dashed #22c55e;
-                ">
-                  ${otp}
-                </span>
-              </div>
+<p style="font-size:15px; line-height:1.8; margin:18px 0;">
+This verification step ensures the protection of your personal health information 
+and prevents unauthorized access to your account.
+</p>
 
-              <p style="font-size:14px; text-align:center; color:#6b7280; margin-top:-15px;">
-                ⏳ This code is valid for <strong>5 minutes</strong> only.
-              </p>
+<!-- OTP SECTION -->
+<div style="margin:35px 0; text-align:center;">
+<div style="
+display:inline-block;
+padding:20px 40px;
+background:#f0fdf4;
+border:2px solid #22c55e;
+border-radius:12px;
+font-size:32px;
+font-weight:700;
+letter-spacing:8px;
+color:#166534;
+">
+${otp}
+</div>
+</div>
 
-              <hr style="border:none; border-top:1px solid #e5e7eb; margin:30px 0;">
+<p style="text-align:center; font-size:14px; color:#6b7280; margin-top:-10px;">
+This code will expire in <strong>5 minutes</strong>.
+</p>
 
-              <p style="font-size:15px; line-height:1.7;">
-                If you did not initiate this request, please ignore this email.  
-                For your protection, never share your OTP with anyone.
-              </p>
+<hr style="border:none; border-top:1px solid #e5e7eb; margin:35px 0;">
 
-              <p style="font-size:15px; line-height:1.7; margin-top:25px;">
-                We appreciate your trust in AcneAI.  
-                Together, let’s move toward healthier skin and confident living.
-              </p>
+<p style="font-size:14px; line-height:1.8; color:#374151;">
+If you did not request this verification, please disregard this email.  
+For security reasons, do not share this code with anyone.
+</p>
 
-              <p style="font-size:15px; margin-top:25px; color:#15803d; font-weight:bold;">
-                Thank you for choosing us 💚
-              </p>
+<p style="font-size:15px; line-height:1.8; margin-top:25px;">
+We’re excited to support you on your journey toward healthier, clearer skin.
+</p>
 
-            </td>
-          </tr>
+<p style="margin-top:30px; font-size:15px;">
+Warm regards,<br>
+<strong style="color:#166534;">The AcnePilot Team</strong>
+</p>
 
-          <!-- Footer -->
-          <tr>
-            <td align="center" style="background:#ecfdf5; padding:20px; font-size:13px; color:#6b7280;">
-              © ${new Date().getFullYear()} AcneAI. All rights reserved.<br>
-              “Healthy skin begins with secure care.”
-            </td>
-          </tr>
+</td>
+</tr>
 
-        </table>
+<!-- FOOTER -->
+<tr>
+<td align="center" style="background:#f9fafb; padding:25px; font-size:13px; color:#6b7280; line-height:1.6;">
+© ${new Date().getFullYear()} AcnePilot. All rights reserved.<br>
+This is an automated message. Please do not reply directly to this email.
+</td>
+</tr>
 
-      </td>
-    </tr>
-  </table>
+</table>
+
+</td>
+</tr>
+</table>
 
 </body>
 </html>
@@ -231,82 +236,95 @@ export const verifyOtp = async (req, res) => {
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Welcome to AcneAI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to AcnePilot</title>
 </head>
-<body style="margin:0; padding:0; background-color:#f0fdf4; font-family:Arial, Helvetica, sans-serif;">
 
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f0fdf4; padding:40px 0;">
-    <tr>
-      <td align="center">
+<body style="margin:0; padding:0; background-color:#f3f4f6; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
 
-        <table width="520" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:14px; box-shadow:0 12px 35px rgba(0,0,0,0.08); overflow:hidden;">
+<table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 0; background-color:#f3f4f6;">
+<tr>
+<td align="center">
 
-          <!-- Header -->
-          <tr>
-            <td align="center" style="background:linear-gradient(90deg,#15803d,#22c55e); padding:30px;">
-              <h1 style="color:#ffffff; margin:0; font-size:24px; letter-spacing:1px;">
-                Welcome to AcneAI 💚
-              </h1>
-              <p style="color:#d1fae5; margin-top:8px; font-size:14px;">
-                “Smart Care. Confident Skin.”
-              </p>
-            </td>
-          </tr>
+<table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 15px 40px rgba(0,0,0,0.08);">
 
-          <!-- Body -->
-          <tr>
-            <td style="padding:35px; color:#1f2937;">
+<!-- HEADER -->
+<tr>
+<td align="center" style="background:linear-gradient(135deg,#166534,#22c55e); padding:35px 25px;">
+<h1 style="margin:0; font-size:26px; color:#ffffff; font-weight:700; letter-spacing:0.5px;">
+AcnePilot
+</h1>
+<p style="margin:8px 0 0 0; font-size:14px; color:#d1fae5;">
+AI-Driven Personalized Acne Care
+</p>
+</td>
+</tr>
 
-              <h2 style="margin-top:0; color:#15803d;">
-                Hello ${user.username},
-              </h2>
+<!-- BODY -->
+<tr>
+<td style="padding:40px; color:#1f2937;">
 
-              <p style="font-size:16px; line-height:1.7; margin-bottom:20px;">
-                🎉 Your registration was successful!
-              </p>
+<h2 style="margin-top:0; font-size:22px; color:#166534;">
+Welcome, ${user.username}
+</h2>
 
-              <p style="font-size:15px; line-height:1.7;">
-                Thank you for joining AcneAI. We’re excited to have you with us.  
-                Today marks the beginning of your personalized skin-care journey.
-              </p>
+<p style="font-size:16px; line-height:1.8; margin:20px 0;">
+Your account has been successfully verified, and you are now part of the <strong>AcnePilot</strong> community.
+</p>
 
-              <p style="font-size:15px; line-height:1.7; margin-top:20px; font-style:italic; color:#4b5563;">
-                “Every great transformation begins with a confident first step.”
-              </p>
+<p style="font-size:15px; line-height:1.8; margin:20px 0;">
+AcnePilot combines dermatological knowledge with advanced artificial intelligence 
+to help you assess acne severity and receive adaptive, personalized treatment guidance.
+</p>
 
-              <hr style="border:none; border-top:1px solid #e5e7eb; margin:30px 0;">
+<p style="font-size:15px; line-height:1.8; margin:20px 0;">
+Here’s what you can do next:
+</p>
 
-              <p style="font-size:15px; line-height:1.7;">
-                Our mission is simple — to support you with intelligent insights, 
-                personalized guidance, and safe skincare recommendations tailored just for you.
-              </p>
+<ul style="font-size:15px; line-height:1.8; padding-left:20px; color:#374151;">
+<li>Complete your health questionnaire</li>
+<li>Upload facial images for AI analysis</li>
+<li>Receive a customized treatment plan</li>
+<li>Track daily progress with adaptive recommendations</li>
+</ul>
 
-              <p style="font-size:15px; line-height:1.7; margin-top:20px;">
-                We truly appreciate your trust in us.  
-                Let’s make every day a step toward healthier, clearer skin.
-              </p>
+<div style="margin:35px 0; text-align:center;">
 
-              <p style="font-size:16px; margin-top:25px; color:#15803d; font-weight:bold;">
-                Thank you for being part of the AcneAI community 💚
-              </p>
+</div>
 
-            </td>
-          </tr>
+<hr style="border:none; border-top:1px solid #e5e7eb; margin:35px 0;">
 
-          <!-- Footer -->
-          <tr>
-            <td align="center" style="background:#ecfdf5; padding:20px; font-size:13px; color:#6b7280;">
-              © ${new Date().getFullYear()} AcneAI. All rights reserved.<br>
-              “Healthy skin begins with smart care.”
-            </td>
-          </tr>
+<p style="font-size:14px; line-height:1.8; color:#4b5563;">
+Your privacy and security are our top priorities. All assessments are processed securely 
+and are designed to support — not replace — professional medical consultation.
+</p>
 
-        </table>
+<p style="font-size:15px; line-height:1.8; margin-top:25px;">
+We’re excited to support your journey toward clearer, healthier skin.
+</p>
 
-      </td>
-    </tr>
-  </table>
+<p style="margin-top:30px; font-size:15px;">
+Best regards,<br>
+<strong style="color:#166534;">The AcnePilot Team</strong>
+</p>
+
+</td>
+</tr>
+
+<!-- FOOTER -->
+<tr>
+<td align="center" style="background:#f9fafb; padding:25px; font-size:13px; color:#6b7280; line-height:1.6;">
+© ${new Date().getFullYear()} AcnePilot. All rights reserved.<br>
+This is an automated message. Please do not reply directly to this email.
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>
 
 </body>
 </html>
@@ -357,85 +375,97 @@ export const resendOtp = async (req, res) => {
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Resend OTP</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify Your AcnePilot Account</title>
 </head>
-<body style="margin:0; padding:0; background-color:#f4fdf7; font-family:Arial, Helvetica, sans-serif;">
 
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4fdf7; padding:30px 0;">
-    <tr>
-      <td align="center">
+<body style="margin:0; padding:0; background-color:#f3f4f6; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
 
-        <table width="500" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:12px; box-shadow:0 8px 25px rgba(0,0,0,0.08); overflow:hidden;">
+<table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 0; background-color:#f3f4f6;">
+<tr>
+<td align="center">
 
-          <!-- Header -->
-          <tr>
-            <td align="center" style="background:linear-gradient(90deg,#16a34a,#22c55e); padding:25px;">
-              <h1 style="color:#ffffff; margin:0; font-size:22px; letter-spacing:1px;">
-                Account Verification 💚
-              </h1>
-            </td>
-          </tr>
+<table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 15px 40px rgba(0,0,0,0.08);">
 
-          <!-- Body -->
-          <tr>
-            <td style="padding:30px; color:#1f2937;">
+<!-- HEADER -->
+<tr>
+<td align="center" style="background:linear-gradient(135deg,#166534,#22c55e); padding:35px 25px;">
+<h1 style="margin:0; font-size:24px; color:#ffffff; font-weight:700;">
+AcnePilot
+</h1>
+<p style="margin:8px 0 0 0; font-size:14px; color:#d1fae5;">
+Secure Account Verification
+</p>
+</td>
+</tr>
 
-              <h2 style="margin-top:0; color:#16a34a;">Hello,</h2>
+<!-- BODY -->
+<tr>
+<td style="padding:40px; color:#1f2937;">
 
-              <p style="font-size:15px; line-height:1.6; margin-bottom:20px;">
-                As requested, we’re sending you a new One-Time Password (OTP) 
-                to verify your account.  
-                “Trust is built with security and care.”
-              </p>
+<h2 style="margin-top:0; font-size:20px; color:#166534;">
+New Verification Code Requested
+</h2>
 
-              <!-- OTP Box -->
-              <div style="text-align:center; margin:30px 0;">
-                <span style="
-                  display:inline-block;
-                  background:#e6f9ef;
-                  color:#15803d;
-                  font-size:28px;
-                  font-weight:bold;
-                  letter-spacing:4px;
-                  padding:15px 25px;
-                  border-radius:8px;
-                  border:2px dashed #22c55e;
-                ">
-                  ${otp}
-                </span>
-              </div>
+<p style="font-size:15px; line-height:1.8; margin:20px 0;">
+We received a request to resend your verification code.  
+Please use the One-Time Password (OTP) below to complete your account verification.
+</p>
 
-              <p style="font-size:14px; text-align:center; color:#6b7280; margin-top:-10px;">
-                ⏳ Valid for <strong>5 minutes</strong> only
-              </p>
+<p style="font-size:15px; line-height:1.8;">
+This step ensures your account remains protected and accessible only to you.
+</p>
 
-              <p style="font-size:15px; line-height:1.6; margin-top:25px;">
-                If you did not request this code, please ignore this email. 
-                For your protection, never share your OTP with anyone.
-              </p>
+<!-- OTP BOX -->
+<div style="margin:35px 0; text-align:center;">
+<div style="
+display:inline-block;
+padding:18px 40px;
+background:#f0fdf4;
+border:2px solid #22c55e;
+border-radius:12px;
+font-size:30px;
+font-weight:700;
+letter-spacing:8px;
+color:#166534;
+">
+${otp}
+</div>
+</div>
 
-              <p style="font-size:15px; line-height:1.6; margin-top:20px;">
-                Thank you for being part of our community.  
-                Stay secure and stay confident 💚
-              </p>
+<p style="text-align:center; font-size:14px; color:#6b7280; margin-top:-10px;">
+This code is valid for <strong>5 minutes</strong>.
+</p>
 
-            </td>
-          </tr>
+<hr style="border:none; border-top:1px solid #e5e7eb; margin:35px 0;">
 
-          <!-- Footer -->
-          <tr>
-            <td align="center" style="background:#f0fdf4; padding:18px; font-size:13px; color:#6b7280;">
-              © ${new Date().getFullYear()} AcneAI. All rights reserved.<br>
-              “Healthy skin begins with secure care.”
-            </td>
-          </tr>
+<p style="font-size:14px; line-height:1.8; color:#374151;">
+If you did not request this code, no further action is required.  
+For your security, never share your verification code with anyone.
+</p>
 
-        </table>
+<p style="margin-top:30px; font-size:15px;">
+Sincerely,<br>
+<strong style="color:#166534;">The AcnePilot Team</strong>
+</p>
 
-      </td>
-    </tr>
-  </table>
+</td>
+</tr>
+
+<!-- FOOTER -->
+<tr>
+<td align="center" style="background:#f9fafb; padding:25px; font-size:13px; color:#6b7280; line-height:1.6;">
+© ${new Date().getFullYear()} AcnePilot. All rights reserved.<br>
+This is an automated message. Please do not reply directly to this email.
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>
 
 </body>
 </html>
@@ -514,85 +544,97 @@ export const forgotPassword = async (req, res) => {
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Reset Password OTP</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reset Your AcnePilot Password</title>
 </head>
-<body style="margin:0; padding:0; background-color:#f4fdf7; font-family:Arial, Helvetica, sans-serif;">
 
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4fdf7; padding:30px 0;">
-    <tr>
-      <td align="center">
+<body style="margin:0; padding:0; background-color:#f3f4f6; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
 
-        <table width="500" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:12px; box-shadow:0 8px 25px rgba(0,0,0,0.08); overflow:hidden;">
+<table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 0; background-color:#f3f4f6;">
+<tr>
+<td align="center">
 
-          <!-- Header -->
-          <tr>
-            <td align="center" style="background:linear-gradient(90deg,#16a34a,#22c55e); padding:25px;">
-              <h1 style="color:#ffffff; margin:0; font-size:22px; letter-spacing:1px;">
-                Password Reset Request 💚
-              </h1>
-            </td>
-          </tr>
+<table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 15px 40px rgba(0,0,0,0.08);">
 
-          <!-- Body -->
-          <tr>
-            <td style="padding:30px; color:#1f2937;">
+<!-- HEADER -->
+<tr>
+<td align="center" style="background:linear-gradient(135deg,#166534,#22c55e); padding:35px 25px;">
+<h1 style="margin:0; font-size:24px; color:#ffffff; font-weight:700;">
+AcnePilot
+</h1>
+<p style="margin:8px 0 0 0; font-size:14px; color:#d1fae5;">
+Secure Password Recovery
+</p>
+</td>
+</tr>
 
-              <h2 style="margin-top:0; color:#16a34a;">Hello,</h2>
+<!-- BODY -->
+<tr>
+<td style="padding:40px; color:#1f2937;">
 
-              <p style="font-size:15px; line-height:1.6; margin-bottom:20px;">
-                We received a request to reset your password. 
-                “Security is not a product, but a process.”  
-                To continue safely, please use the One-Time Password (OTP) below.
-              </p>
+<h2 style="margin-top:0; font-size:20px; color:#166534;">
+Password Reset Verification
+</h2>
 
-              <!-- OTP Box -->
-              <div style="text-align:center; margin:30px 0;">
-                <span style="
-                  display:inline-block;
-                  background:#e6f9ef;
-                  color:#15803d;
-                  font-size:28px;
-                  font-weight:bold;
-                  letter-spacing:4px;
-                  padding:15px 25px;
-                  border-radius:8px;
-                  border:2px dashed #22c55e;
-                ">
-                  ${otp}
-                </span>
-              </div>
+<p style="font-size:15px; line-height:1.8; margin:20px 0;">
+We received a request to reset the password associated with your AcnePilot account.
+To proceed securely, please use the One-Time Password (OTP) provided below.
+</p>
 
-              <p style="font-size:14px; text-align:center; color:#6b7280; margin-top:-10px;">
-                ⏳ Valid for <strong>5 minutes</strong> only
-              </p>
+<p style="font-size:15px; line-height:1.8;">
+This verification step ensures that only you can modify your account credentials.
+</p>
 
-              <p style="font-size:15px; line-height:1.6; margin-top:25px;">
-                If you did not request this reset, please ignore this email. 
-                “Your digital safety is our highest priority.”
-              </p>
+<!-- OTP BOX -->
+<div style="margin:35px 0; text-align:center;">
+<div style="
+display:inline-block;
+padding:18px 40px;
+background:#f0fdf4;
+border:2px solid #22c55e;
+border-radius:12px;
+font-size:30px;
+font-weight:700;
+letter-spacing:8px;
+color:#166534;
+">
+${otp}
+</div>
+</div>
 
-              <p style="font-size:15px; line-height:1.6; margin-top:20px;">
-                Thank you for trusting us.  
-                Stay secure and stay confident 💚
-              </p>
+<p style="text-align:center; font-size:14px; color:#6b7280; margin-top:-10px;">
+This code will expire in <strong>5 minutes</strong>.
+</p>
 
-            </td>
-          </tr>
+<hr style="border:none; border-top:1px solid #e5e7eb; margin:35px 0;">
 
-          <!-- Footer -->
-          <tr>
-            <td align="center" style="background:#f0fdf4; padding:18px; font-size:13px; color:#6b7280;">
-              © ${new Date().getFullYear()} AcneAI. All rights reserved.<br>
-              “Healthy skin begins with secure care.”
-            </td>
-          </tr>
+<p style="font-size:14px; line-height:1.8; color:#374151;">
+If you did not request a password reset, you can safely ignore this email.
+No changes will be made to your account without this verification code.
+</p>
 
-        </table>
+<p style="margin-top:30px; font-size:15px;">
+Regards,<br>
+<strong style="color:#166534;">The AcnePilot Team</strong>
+</p>
 
-      </td>
-    </tr>
-  </table>
+</td>
+</tr>
+
+<!-- FOOTER -->
+<tr>
+<td align="center" style="background:#f9fafb; padding:25px; font-size:13px; color:#6b7280; line-height:1.6;">
+© ${new Date().getFullYear()} AcnePilot. All rights reserved.<br>
+This is an automated security message. Please do not reply to this email.
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>
 
 </body>
 </html>

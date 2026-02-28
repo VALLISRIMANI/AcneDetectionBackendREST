@@ -50,24 +50,87 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
-// CORS configuration - Only allow React Vite application
-const allowedOrigins = process.env.ALLOWED_ORIGINS.split(",").map(origin => origin.trim());
+// CORS configuration - Allow whitelisted origins (supports wildcards and localhost variants)
+const NODE_ENV = process.env.NODE_ENV || "development";
+const allowedOriginsEnv = process.env.ALLOWED_ORIGINS.split(",").map(origin => origin.trim());
 
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
+console.log(`🔐 CORS Configuration:`);
+console.log(`   Environment: ${NODE_ENV}`);
+console.log(`   Allowed Origins: ${allowedOriginsEnv.join(", ")}`);
+
+// Helper function to check if origin matches allowed patterns
+const isOriginAllowed = (origin, allowedOrigins) => {
+  if (!origin) return true; // Allow requests without origin (CLI, mobile, etc.)
+  
+  return allowedOrigins.some(allowedOrigin => {
+    // Exact match
+    if (allowedOrigin === origin) return true;
     
-    if (allowedOrigins.includes(origin)) {
+    // localhost/127.0.0.1 variant matching (treat them as same for development)
+    // e.g., http://localhost:5173 == http://127.0.0.1:5173
+    const localhostVariants = (allowedOrigin) => {
+      if (allowedOrigin.includes("localhost")) {
+        return [
+          allowedOrigin,
+          allowedOrigin.replace("localhost", "127.0.0.1"),
+          allowedOrigin.replace("localhost", "[::1]") // IPv6 localhost
+        ];
+      }
+      if (allowedOrigin.includes("127.0.0.1")) {
+        return [
+          allowedOrigin,
+          allowedOrigin.replace("127.0.0.1", "localhost"),
+          allowedOrigin.replace("127.0.0.1", "[::1]")
+        ];
+      }
+      return [allowedOrigin];
+    };
+    
+    if (localhostVariants(allowedOrigin).includes(origin)) return true;
+    
+    // Wildcard match (e.g., https://*.onrender.com matches https://myapp.onrender.com)
+    if (allowedOrigin.includes("*")) {
+      const regexPattern = allowedOrigin
+        .replace(/\./g, "\\.") // Escape dots
+        .replace(/\*/g, ".*"); // Replace * with .*
+      const regex = new RegExp(`^${regexPattern}$`);
+      return regex.test(origin);
+    }
+    
+    return false;
+  });
+};
+
+// CORS options
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (isOriginAllowed(origin, allowedOriginsEnv)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      // Log rejected origins for debugging
+      console.warn(`⚠️  CORS blocked request from origin: ${origin}`);
+      console.warn(`📝 Allowed origins: ${allowedOriginsEnv.join(", ")}`);
+      callback(new Error(`Not allowed by CORS: ${origin}`));
     }
   },
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  optionsSuccessStatus: 200,
+  maxAge: 86400 // 24 hours
+};
+
+// In development, optionally allow all origins for easier debugging
+// Uncomment the line below ONLY for development
+// if (NODE_ENV === "development") corsOptions.origin = true;
+
+// Allow all origins when explicitly enabled via environment (development/testing only)
+if (process.env.ALLOW_ALL_ORIGINS === "true") {
+  console.warn("⚠️  ALLOW_ALL_ORIGINS enabled — allowing requests from any origin (development only)");
+  app.use(cors({ origin: true, credentials: true }));
+} else {
+  app.use(cors(corsOptions));
+}
 
 // Cookie parser
 app.use(cookieParser());
@@ -118,48 +181,77 @@ connectDB();
  * ROUTES
  */
 
-/**
- * HEALTH CHECK ENDPOINT
- */
+// Health check
 app.get("/health", (req, res) => {
-  const mongoStatus = mongoose.connection.readyState === 1 ? "connected" : "disconnected";
-  return res.status(200).json({
+  res.status(200).json({
     status: "OK",
     timestamp: new Date().toISOString(),
-    database: mongoStatus,
-    environment: process.env.NODE_ENV || "development"
+    database: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+    environment: NODE_ENV
+  });
+});
+
+// Root endpoint
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "AcneAI Backend API",
+    version: "1.0.0",
+    documentation: "/api/docs",
+    status: "running"
   });
 });
 
 /**
- * 404 HANDLER
+ * ERROR HANDLING
  */
+
+// 404 handler
 app.use((req, res) => {
-  return res.status(404).json({ message: "Endpoint not found" });
+  res.status(404).json({
+    message: "Endpoint not found",
+    path: req.path,
+    method: req.method
+  });
 });
 
-/**
- * ERROR HANDLER
- */
+// Global error handler
 app.use((err, req, res, next) => {
-  console.error("Unhandled error:", err);
+  console.error("Error:", err.message);
   
-  // Multer file filter errors
-  if (err.message && err.message.includes("Only JPG/JPEG")) {
-    return res.status(400).json({ message: err.message });
+  // CORS error
+  if (err.message.includes("Not allowed by CORS")) {
+    return res.status(403).json({
+      message: err.message,
+      hint: "Check ALLOWED_ORIGINS in .env file"
+    });
   }
   
-  return res.status(500).json({ 
+  // Other errors
+  res.status(500).json({
     message: "Internal server error",
     error: process.env.NODE_ENV === "development" ? err.message : undefined
   });
 });
 
 /**
- * SERVER STARTUP
+ * SERVER START
  */
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`✓ Server running on port ${PORT}`);
-  console.log(`✓ Environment: ${process.env.NODE_ENV || "development"}`);
+
+const server = app.listen(PORT, () => {
+  console.log(`\n✅ Server running on http://localhost:${PORT}`);
+  console.log(`📚 API Documentation: http://localhost:${PORT}/api/docs`);
+  console.log(`🏥 Health Check: http://localhost:${PORT}/health\n`);
 });
+
+// Graceful shutdown
+process.on("SIGTERM", () => {
+  console.log("🛑 SIGTERM received, shutting down gracefully...");
+  server.close(() => {
+    console.log("Server closed");
+    mongoose.connection.close();
+    process.exit(0);
+  });
+});
+
+export default app;
